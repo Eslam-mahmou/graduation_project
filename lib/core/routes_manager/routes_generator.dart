@@ -6,6 +6,7 @@ class RoutesGenerate {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
 
+
       default:
         return unDefinedRoute();
     }
