@@ -1,11 +1,17 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:graduation_project/core/routes_manager/page_routes.dart';
+
+import '../../login/presentation/login_screen.dart';
 
 class RoutesGenerate {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-
+      case PagesRoutes.login :
+       return MaterialPageRoute(
+          builder: (context) =>const LoginScreen(), settings: settings
+        );
       default:
         return unDefinedRoute();
     }
