@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/core/Utils/colors_manager.dart';
 import 'package:graduation_project/core/Utils/font_manager.dart';
-import 'package:graduation_project/login/presentation/login_screen.dart';
 import 'package:graduation_project/login/presentation/subject_screen.dart';
 
 class CustomTextField extends StatefulWidget {

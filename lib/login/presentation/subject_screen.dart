@@ -122,7 +122,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                     ),
                     icon: Icon(Icons.logout, color: Colors.blue),
                     onPressed: () {
-                      Navigator.popAndPushNamed(context, LoginScreen.login);
+                      Navigator.popAndPushNamed(context, LoginScreen.loginScreen);
                     },
                   ),
                 ],

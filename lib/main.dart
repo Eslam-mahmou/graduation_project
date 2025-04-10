@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/core/routes_manager/page_routes.dart';
 import 'package:graduation_project/login/presentation/login_screen.dart';
 import 'package:graduation_project/login/presentation/subject_screen.dart';
 
@@ -14,9 +13,9 @@ class AttendanceApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: LoginScreen.login,
+      initialRoute: LoginScreen.loginScreen,
       routes: {
-        LoginScreen.login:(_)=> LoginScreen(),
+        LoginScreen.loginScreen:(_)=> LoginScreen(),
         SubjectScreen.subject:(_)=> SubjectScreen(),
       },
     );
