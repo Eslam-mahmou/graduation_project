@@ -6,6 +6,9 @@ static const Color blackColor=Color(0xff000000);
 static const Color  cayn= Color(0xff398CF7);
 static const Color  darkBlue= Color(0xff0052BD);
 static const Color  gray= Color(0xff6C7279);
+static const Color  brown= Color(0xffF2F0ED);
+
+
 
 
 }

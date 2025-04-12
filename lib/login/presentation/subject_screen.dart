@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/core/Utils/colors_manager.dart';
 import 'package:graduation_project/core/Utils/font_manager.dart';
 import 'package:graduation_project/core/Widget/custom_subject_card.dart';
+import 'package:graduation_project/core/routes_manager/page_routes.dart';
 import 'package:graduation_project/login/presentation/login_screen.dart';
 
 class SubjectScreen extends StatefulWidget {
@@ -20,6 +21,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
     return Scaffold(
       backgroundColor: ColorsManager.whiteColor,
       appBar: AppBar(
+        centerTitle: true,
 
         leading: Builder(
             builder: (context)=>IconButton(
@@ -30,26 +32,26 @@ class _SubjectScreenState extends State<SubjectScreen> {
         ) ,
 
         actions: [
-          Icon(Icons.notifications_none_outlined,color: ColorsManager.whiteColor,),
+          InkWell(
+            onTap: (){
+             // Navigator.pushNamed(context, PagesRoutes.event);
+              Navigator.pushNamed(context, PagesRoutes.attendance);
+            },
+              child: Icon(Icons.notifications_none_outlined,color: ColorsManager.whiteColor,)),
           SizedBox(width: 10,),
         ],
 
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Subjects' ,
-              style: GoogleFonts.roboto(
-                textStyle:
-                  TextStyle(
-                    color: ColorsManager.whiteColor,
-                    fontSize: FontSize.s20,
-                    fontWeight: FontWeightManager.medium,
+        title: Text('Subjects' ,
+          style: GoogleFonts.roboto(
+            textStyle:
+              TextStyle(
+                color: ColorsManager.whiteColor,
+                fontSize: FontSize.s20,
+                fontWeight: FontWeightManager.medium,
 
-                  )
-              ),
+              )
+          ),
 
-            ),
-          ],
         ),
         backgroundColor: ColorsManager.cayn,
       ),
