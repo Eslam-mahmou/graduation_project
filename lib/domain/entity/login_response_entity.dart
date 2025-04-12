@@ -1,9 +1,7 @@
 class LoginResponseEntity {
   LoginResponseEntity({
-      this.statusCode, 
       this.message, 
       this.data,});
-  num? statusCode;
   String? message;
   LoginDataEntity? data;
 

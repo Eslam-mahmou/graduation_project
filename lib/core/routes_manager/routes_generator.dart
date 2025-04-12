@@ -1,16 +1,39 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:graduation_project/Feature/attendance/view/attendance_screen.dart';
+import 'package:graduation_project/Feature/subject_Screen/presentation/manager/user_cubit.dart';
 import 'package:graduation_project/core/routes_manager/page_routes.dart';
+import 'package:graduation_project/di/di.dart';
 
-import '../../login/presentation/login_screen.dart';
+import '../../Feature/attendance/manager/attendance_view_model.dart';
+import '../../Feature/login/presentation/login_screen.dart';
+import '../../Feature/subject_Screen/presentation/view/subject_screen.dart';
 
 class RoutesGenerate {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case PagesRoutes.login :
-       return MaterialPageRoute(
-          builder: (context) =>const LoginScreen(), settings: settings
+      case PagesRoutes.login:
+        return MaterialPageRoute(
+          builder: (context) => LoginScreen(),
+          settings: settings,
+        );
+      case PagesRoutes.subjectScreen:
+        return MaterialPageRoute(
+          builder: (context) =>
+              BlocProvider(
+                create: (context) => getIt.get<UserViewModel>(),
+                child: SubjectScreen(),
+              ),
+          settings: settings,
+        );
+      case PagesRoutes.attendanceScreen :
+        return MaterialPageRoute(
+          builder: (context) =>
+              BlocProvider(
+                create: (context) => getIt.get<AttendanceViewModel>(),
+                child: AttendanceScreen(),
+              ),
+          settings: settings,
         );
       default:
         return unDefinedRoute();
@@ -26,9 +49,7 @@ Route<dynamic> unDefinedRoute() {
           title: const Text("Un defined route"),
           centerTitle: true,
         ),
-        body: const Center(
-          child: Text("Un defined route"),
-        ),
+        body: const Center(child: Text("Un defined route")),
       );
     },
   );

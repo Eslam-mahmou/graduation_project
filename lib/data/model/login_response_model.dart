@@ -1,10 +1,9 @@
 import 'package:graduation_project/domain/entity/login_response_entity.dart';
 
 class LoginResponseModel extends LoginResponseEntity {
-  LoginResponseModel({super.statusCode, super.message, super.data});
+  LoginResponseModel({ super.message, super.data});
 
   LoginResponseModel.fromJson(dynamic json) {
-    statusCode = json['statusCode'];
     message = json['message'];
     data = json['data'] != null ? LoginDataModel.fromJson(json['data']) : null;
   }

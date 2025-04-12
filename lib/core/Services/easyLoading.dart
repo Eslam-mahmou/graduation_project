@@ -12,8 +12,8 @@ class ConfigLoading {
       ..indicatorSize = 45.0
       ..radius = 10.0
       ..maskType = EasyLoadingMaskType.black
-      ..textColor=ColorsManager.whiteColor
-      ..indicatorColor = Colors.yellow
+      ..textColor=ColorsManager.blackColor
+      ..indicatorColor = Colors.black
       ..userInteractions = false
       ..dismissOnTap = true
       ..backgroundColor=ColorsManager.whiteColor;

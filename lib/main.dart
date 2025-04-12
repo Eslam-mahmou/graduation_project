@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:graduation_project/login/presentation/login_screen.dart';
-import 'package:graduation_project/login/presentation/subject_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:graduation_project/core/Services/shared_preference_services.dart';
+import 'package:graduation_project/core/routes_manager/page_routes.dart';
+import 'package:graduation_project/core/routes_manager/routes_generator.dart';
+import 'core/Services/bloc_observer.dart';
+import 'core/Services/easyLoading.dart';
+import 'di/di.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  ConfigLoading().showLoading();
+  configureDependencies();
+  Bloc.observer = MyBlocObserver();
+ await SharedPreferenceServices.init();
   runApp(const AttendanceApp());
 }
 
@@ -13,11 +24,9 @@ class AttendanceApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: LoginScreen.loginScreen,
-      routes: {
-        LoginScreen.loginScreen:(_)=> LoginScreen(),
-        SubjectScreen.subject:(_)=> SubjectScreen(),
-      },
+      onGenerateRoute: RoutesGenerate.onGenerateRoute,
+      initialRoute: PagesRoutes.login,
+      builder: EasyLoading.init(),
     );
   }
 }

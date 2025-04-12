@@ -15,7 +15,7 @@ class DialogUtils {
             content: Row(
               children: [
                 const CircularProgressIndicator(
-                  color: Colors.yellow,
+                  color: Colors.black,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -51,7 +51,7 @@ class DialogUtils {
           },
           child: Text(
             postActionName,
-            style: const TextStyle(color: Colors.yellow),
+            style: const TextStyle(color: Colors.black),
           )));
       if (negativeActionName != null) {
         actions.add(TextButton(
@@ -61,7 +61,7 @@ class DialogUtils {
             },
             child: Text(
               negativeActionName,
-              style: const TextStyle(color: Colors.yellow),
+              style: const TextStyle(color: Colors.black),
             )));
       }
     }
@@ -73,7 +73,7 @@ class DialogUtils {
           return AlertDialog(
               content: Text(message,
                   style: getTextStyle(FontSize.s14, FontWeightManager.medium,
-                      Colors.yellow)),
+                      Colors.black)),
               title: Text(title),
               actions: actions);
         });

@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
 import '../Utils/constant_manager.dart';
-
+@singleton
 class ApiManager {
   static ApiManager? _this;
 
