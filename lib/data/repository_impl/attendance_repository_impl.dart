@@ -5,32 +5,32 @@ import 'package:dio/dio.dart';
 
 import 'package:graduation_project/core/Errors/dio_error.dart';
 import 'package:graduation_project/data/data_source/attendance_remote_data_source.dart';
-import 'package:graduation_project/data/model/get_all_course_student_response_model.dart';
-
-import 'package:graduation_project/domain/entity/get_all_course_student_response_entity.dart';
+import 'package:graduation_project/data/model/get_subject_details_for_instructor_model.dart';
+import 'package:graduation_project/domain/entity/get_subject_details_for_instructor_entity.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../domain/repository/attendance_repository.dart';
+
 @Injectable(as: AttendanceRepository)
-class AttendanceRepositoryImpl implements AttendanceRepository{
-final  AttendanceRemoteDataSource _dataSource;
+class AttendanceRepositoryImpl implements AttendanceRepository {
+  final AttendanceRemoteDataSource _dataSource;
+
   AttendanceRepositoryImpl(this._dataSource);
+
   @override
-  Future<Either<DioFailure, GetAllCourseStudentResponseEntity>> getAllCourseStudent(int id) async{
+  Future<Either<DioFailure, GetSubjectDetailsForInstructorEntity>>
+  getAllCourseStudent(int id) async {
     var response = await _dataSource.getCourseStudentAttendance(id);
     try {
       log("response ${response.data}");
-      if (response.data["statusCode"] == 200) {
-        var data = GetAllCourseStudentResponseModel.fromJson(response.data);
+      if (response.statusCode == 200) {
+        var data = GetSubjectDetailsForInstructorModel.fromJson(response.data);
         log("data ${data.data?.studentWithAttendanceDtos}");
         return Right(data);
       } else {
-        log("error ${response.data["message"]}");
+        log("error ${response.statusMessage}");
         return Left(
-          ServerFailure.badFromResponse(
-            response.data["statusCode"]!,
-            response.data,
-          ),
+          ServerFailure.badFromResponse(response.statusCode!, response.data),
         );
       }
     } catch (e, s) {
@@ -44,4 +44,5 @@ final  AttendanceRemoteDataSource _dataSource;
       }
     }
   }
-  }
+
+}

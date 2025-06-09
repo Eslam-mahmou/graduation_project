@@ -43,3 +43,4 @@ class UserInfoSuccessState extends UserState{
   UserDataInfoEntity userInfoEntity;
   UserInfoSuccessState(this.userInfoEntity);
 }
+class UpdateUIState extends UserState{}

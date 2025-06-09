@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:graduation_project/Feature/subject_Screen/presentation/manager/user_cubit.dart';
 import 'package:graduation_project/Feature/subject_Screen/presentation/manager/user_state.dart';
 import 'package:graduation_project/Feature/subject_Screen/presentation/view/widget/custom_container_instractor.dart';
+import 'package:graduation_project/Feature/subject_screen/presentation/view/widget/custom_buttom_sheet.dart';
 import 'package:graduation_project/core/Services/shared_preference_services.dart';
 import 'package:graduation_project/core/Utils/colors_manager.dart';
 import 'package:graduation_project/core/Utils/constant_manager.dart';
@@ -88,7 +89,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
             backgroundColor: ColorsManager.cayn,
           ),
           drawer: Drawer(
-
             backgroundColor: ColorsManager.whiteColor,
             child:
                 state is UserInfoLoadingState
@@ -185,9 +185,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                     : SizedBox.shrink(),
           ),
           onDrawerChanged: (isOpened) {
-            isOpened ?
-            viewModel.fetchUserInfo()
-                : viewModel.fetchUser();
+            isOpened ? viewModel.fetchUserInfo() : viewModel.fetchUser();
           },
           body:
               JwtHelper.extractRole() == AppConstants.student
@@ -195,8 +193,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           state is StudentCourseDetailsLoadingState
                       ? Center(child: CircularProgressIndicator())
                       : state is StudentSuccessState &&
-                              viewModel.studentCourses.isNotEmpty &&
-                              state.studentDataEntity.count!.toInt() > 0 ||
+                              viewModel.studentCourses.isNotEmpty ||
                           state is StudentCourseDetailsSuccessState
                       ? SingleChildScrollView(
                         child: Padding(
@@ -208,22 +205,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                 return StatefulBuilder(
                                   builder: (context, setState) {
                                     return CustomSubjectCard(
-                                      attendanceCount:
-                                          viewModel.courseDetails?.attendance
-                                              ?.toInt() ??
-                                          0,
-                                      totalDays:
-                                          viewModel.courseDetails?.totalDays
-                                              ?.toInt() ??
-                                          0,
-                                      title:
-                                          viewModel.studentCourses[index].name
-                                              .toString(),
+                                      courseName: viewModel.studentCourses[index],
                                       isExpanded:
                                           index == viewModel.expandedIndex,
                                       onTap: () {
                                         viewModel.fetchCourseDetails(
-                                          viewModel.studentCourses[index].id!
+                                          viewModel
+                                              .studentCourses[index]
+                                              .courseId!
                                               .toInt(),
                                         );
                                         setState(() {
@@ -233,6 +222,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                                   : index;
                                         });
                                       },
+                                      studentCourse: viewModel.courseDetails,
                                     );
                                   },
                                 );
@@ -258,18 +248,26 @@ class _SubjectScreenState extends State<SubjectScreen> {
                       state.instructorDataEntity.count!.toInt() > 0
                   ? SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 16,
+                      ),
                       child: Column(
                         children: List.generate(
                           viewModel.instructorCourses.length,
                           (index) {
-                            // Create 6 items, the first one is expanded
                             return InkWell(
                               onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  PagesRoutes.attendanceScreen,
-                                  arguments: viewModel.instructorCourses[index],
+                                showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: Colors.white,
+                                  showDragHandle: true,
+
+                                  builder: (context) {
+                                    return CustomBottomSheet(
+                                      courseEntity: viewModel.instructorCourses[index],
+                                    );
+                                  },
                                 );
                               },
                               child: CustomContainerInstructor(

@@ -12,10 +12,10 @@ String text ;
       height: MediaQuery.of(context).size.height * 0.08,
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 8),
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
-
-        color: ColorsManager.whiteColor,
+        borderRadius: BorderRadius.circular(16),
+        color: ColorsManager.brown,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,30 +29,6 @@ String text ;
 
             ),
           ),
-
-
-          SizedBox(height: 2,),
-          Padding(
-            padding: const EdgeInsets.all(3.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Start : 9:00 am', style: TextStyle(
-                  color: ColorsManager.blackColor,
-                  fontSize: FontSize.s14,
-                  fontWeight: FontWeightManager.medium,
-
-                ),),
-                Text('Start : 9:00 am', style: TextStyle(
-                  color: ColorsManager.blackColor,
-                  fontSize: FontSize.s14,
-                  fontWeight: FontWeightManager.medium,
-
-                ),),
-
-              ],),
-          )
-
         ],
       ),
     );

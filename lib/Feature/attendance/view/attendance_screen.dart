@@ -6,7 +6,6 @@ import 'package:graduation_project/Feature/attendance/manager/attendance_view_mo
 import 'package:graduation_project/core/Utils/colors_manager.dart';
 import 'package:graduation_project/core/Utils/font_manager.dart';
 import 'package:graduation_project/core/Widget/custom_diaolg.dart';
-import 'package:graduation_project/core/Widget/extract_attendance_precent.dart';
 import 'package:graduation_project/di/di.dart';
 import 'package:graduation_project/domain/entity/get_all_instructor_courses_response_entity.dart';
 
@@ -17,7 +16,8 @@ class AttendanceScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var viewModel = getIt.get<AttendanceViewModel>();
     var arg =
-        ModalRoute.of(context)?.settings.arguments as InstructorCoursesEntity;
+        ModalRoute.of(context)?.settings.arguments
+            as InstructorCoursesListEntity;
     return BlocConsumer<AttendanceViewModel, AttendanceState>(
       bloc: viewModel..getAllCourseStudent(arg.id!.toInt()),
       listener: (context, state) {
@@ -74,36 +74,60 @@ class AttendanceScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                             color: ColorsManager.whiteColor,
                           ),
-                          child: Row(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              CircleAvatar(
-                                radius: 22,
-                                child: Image.asset(
-                                  'assets/images/profilePhoto.png',
-                                ),
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                viewModel.attendance[index].name.toString(),
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.roboto(
-                                  textStyle: TextStyle(
-                                    color: ColorsManager.blackColor,
-                                    fontSize: FontSize.s18,
-                                    fontWeight: FontWeightManager.semiBold,
+                              Row(
+                                children: [
+                                  Text(
+                                    viewModel.attendance[index].name.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.roboto(
+                                      textStyle: TextStyle(
+                                        color: ColorsManager.blackColor,
+                                        fontSize: FontSize.s18,
+                                        fontWeight: FontWeightManager.semiBold,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                              Expanded(child: SizedBox(width: 10)),
-                              Text(
-                                "Attended ${extractAttendancePrecent(state.attendance.totalDays!.toInt(), viewModel.attendance[index].attendance!.toInt()).toInt()}%",
-                                style: GoogleFonts.roboto(
-                                  textStyle: TextStyle(
-                                    color: ColorsManager.blackColor,
-                                    fontSize: FontSize.s18,
-                                    fontWeight: FontWeightManager.semiBold,
+                                  Expanded(child: SizedBox(width: 10)),
+                                  Text(
+                                    "present : ${viewModel.attendance[index].attendance.toString()}",
+                                    style: GoogleFonts.roboto(
+                                      textStyle: TextStyle(
+                                        color: ColorsManager.blackColor,
+                                        fontSize: FontSize.s18,
+                                        fontWeight: FontWeightManager.semiBold,
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    viewModel.attendance[index].code.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.roboto(
+                                      textStyle: TextStyle(
+                                        color: ColorsManager.blackColor,
+                                        fontSize: FontSize.s16,
+                                        fontWeight: FontWeightManager.regular,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(child: SizedBox(width: 10)),
+                                  Text(
+                                    "absent : ${(state.attendance.totalLectures ?? 0) - (viewModel.attendance[index].attendance ?? 0)}",
+                                    style: GoogleFonts.roboto(
+                                      textStyle: TextStyle(
+                                        color: ColorsManager.blackColor,
+                                        fontSize: FontSize.s18,
+                                        fontWeight: FontWeightManager.semiBold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

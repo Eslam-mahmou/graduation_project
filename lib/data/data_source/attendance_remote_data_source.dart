@@ -16,7 +16,6 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
   AttendanceRemoteDataSourceImpl(this._apiManager);
 
   var token = SharedPreferenceServices.getToken(AppConstants.token).toString();
-
   @override
   Future<Response> getCourseStudentAttendance(int id) {
     return _apiManager.getData(
@@ -25,4 +24,7 @@ class AttendanceRemoteDataSourceImpl implements AttendanceRemoteDataSource {
       headers: {"Authorization": "Bearer $token"},
     );
   }
+
+
+
 }

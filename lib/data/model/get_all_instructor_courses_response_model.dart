@@ -1,45 +1,51 @@
 import 'package:graduation_project/domain/entity/get_all_instructor_courses_response_entity.dart';
 import 'package:graduation_project/domain/entity/get_all_student_courses_response_entity.dart';
 
-class GetAllInstructorCoursesResponseModel extends GetAllInstructorCoursesResponseEntity {
+class GetAllInstructorCoursesResponseModel
+    extends GetAllInstructorCoursesResponseEntity {
   GetAllInstructorCoursesResponseModel({
-      super.statusCode,
-      super.message,
-      super.data,});
+    super.statusCode,
+    super.message,
+    super.data,
+  });
 
   GetAllInstructorCoursesResponseModel.fromJson(dynamic json) {
     statusCode = json['statusCode'];
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data =
+        json['data'] != null
+            ? GetInstructorDataModel.fromJson(json['data'])
+            : null;
   }
-
 }
 
-class Data extends GetInstructorDataEntity{
-  Data({
-      super.count,
-      super.allInstructorCourses,});
+class GetInstructorDataModel extends GetInstructorDataEntity {
+  GetInstructorDataModel({super.count, super.allInstructorCourses});
 
-  Data.fromJson(dynamic json) {
+  GetInstructorDataModel.fromJson(dynamic json) {
     count = json['count'];
-    if (json['allCourseDtos'] != null) {
-      allInstructorCourses = [];
-      json['allCourseDtos'].forEach((v) {
-        allInstructorCourses?.add(InstructorCoursesModel.fromJson(v));
+    allInstructorCourses = (json['allCourseDtos'] != null ? InstructorCoursesModel.fromJson(json['allCourseDtos']) : null) ;
+  }
+}
+
+class InstructorCoursesModel extends InstructorCoursesEntity {
+  InstructorCoursesModel({super.values});
+
+  InstructorCoursesModel.fromJson(dynamic json) {
+    values = [];
+    if (json['\$values'] != null) {
+      json['\$values'].forEach((v) {
+        values?.add(InstructorCoursesListModel.fromJson(v));
       });
     }
   }
-
 }
 
-class InstructorCoursesModel extends InstructorCoursesEntity{
-  InstructorCoursesModel({
-      super.id,
-      super.name,});
+class InstructorCoursesListModel extends InstructorCoursesListEntity {
+  InstructorCoursesListModel({super.id, super.name});
 
-  InstructorCoursesModel.fromJson(dynamic json) {
+  InstructorCoursesListModel.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
   }
-
 }

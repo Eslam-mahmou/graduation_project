@@ -11,7 +11,7 @@ class LoginViewModel extends Cubit<LoginState> {
 var emailController = TextEditingController();
 var passwordController = TextEditingController();
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+bool isRememberMe = false;
   Future<void> login() async {
     emit(LoginLoadingState());
     var result = await _loginUseCase.call(

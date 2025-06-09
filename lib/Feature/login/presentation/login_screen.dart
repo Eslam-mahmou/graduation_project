@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:graduation_project/core/Services/shared_preference_services.dart';
 import 'package:graduation_project/core/Utils/assets_manager.dart';
 import 'package:graduation_project/core/Utils/colors_manager.dart';
+import 'package:graduation_project/core/Utils/constant_manager.dart';
 import 'package:graduation_project/core/Utils/font_manager.dart';
 import 'package:graduation_project/core/Utils/style_manager.dart';
 import 'package:graduation_project/core/Widget/custom_diaolg.dart';
@@ -18,10 +20,14 @@ import 'package:graduation_project/di/di.dart';
 import 'manager/login_state.dart';
 import 'manager/login_view_model.dart';
 
-
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     var viewModel = getIt.get<LoginViewModel>();
@@ -37,14 +43,19 @@ class LoginScreen extends StatelessWidget {
               if (state is LoginErrorState) {
                 EasyLoading.dismiss();
                 log(state.errMessage);
-                DialogUtils.showMessage(context: context, message: state.errMessage,
-                    title: "Error",
-                postActionName: "OK",);
+                DialogUtils.showMessage(
+                  context: context,
+                  message: state.errMessage,
+                  title: "Error",
+                  postActionName: "OK",
+                );
               }
               if (state is LoginSuccessState) {
                 EasyLoading.dismiss();
-                EasyLoading.showSuccess("Login Successfully",
-                duration: Duration(milliseconds:1400 ));
+                EasyLoading.showSuccess(
+                  "Login Successfully",
+                  duration: Duration(milliseconds: 1400),
+                );
                 log(JwtHelper.extractRole().toString());
                 Navigator.pushReplacementNamed(
                   context,
@@ -56,29 +67,11 @@ class LoginScreen extends StatelessWidget {
               return Form(
                 key: viewModel.formKey,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      width: MediaQuery.of(context).size.width * 1.4,
-
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage(ImageAssets.cervycontainer),
-                        ),
-                      ),
-                      alignment: Alignment.center,
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+                    Image.asset(ImageAssets.appLogo, scale: 1.5),
+                    SizedBox(height: MediaQuery.of(context).size.height * 0.1),
 
                     CustomTextField(
                       hintText: "Email",
@@ -92,6 +85,7 @@ class LoginScreen extends StatelessWidget {
                       hintText: "Password",
                       controller: viewModel.passwordController,
                       validator: AppValidate.validatePassword,
+                      obscureText: true,
                       keyboardType: TextInputType.visiblePassword,
                       prefixIcon: Icon(Icons.lock_outlined),
                     ),
@@ -104,8 +98,39 @@ class LoginScreen extends StatelessWidget {
                       },
                       text: "Login",
                     ),
-
-                    const SizedBox(height: 80),
+                    SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(width: 8),
+                        StatefulBuilder(
+                          builder: (context, setState) {
+                            return Checkbox(
+                              activeColor: ColorsManager.cayn,
+                              value: viewModel.isRememberMe,
+                              onChanged: (value) {
+                                setState(() {
+                                  viewModel.isRememberMe = value!;
+                                  SharedPreferenceServices.saveToken(
+                                    AppConstants.isRemember,
+                                    viewModel.isRememberMe,
+                                  );
+                                });
+                              },
+                            );
+                          },
+                        ),
+                        Text(
+                          "Remember me?",
+                          style: getTextStyle(
+                            14,
+                            FontWeightManager.regular,
+                            ColorsManager.blackColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 50),
 
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -118,17 +143,12 @@ class LoginScreen extends StatelessWidget {
                             ColorsManager.blackColor,
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            // nav to admin
-                          },
-                          child: Text(
-                            'Contact with us',
-                            style: getTextStyle(
-                              14,
-                              FontWeightManager.medium,
-                              ColorsManager.cayn,
-                            ),
+                        Text(
+                          'Contact with us',
+                          style: getTextStyle(
+                            14,
+                            FontWeightManager.medium,
+                            ColorsManager.cayn,
                           ),
                         ),
                       ],

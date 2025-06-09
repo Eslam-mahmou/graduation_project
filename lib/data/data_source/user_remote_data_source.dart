@@ -19,19 +19,14 @@ abstract class UserRemoteDataSource {
 @Injectable(as: UserRemoteDataSource)
 class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   final ApiManager _apiManager;
-
   UserRemoteDataSourceImpl(this._apiManager);
-
   var token = SharedPreferenceServices.getToken(AppConstants.token).toString();
-
   @override
   Future<Response> getAllStudentCourses() async {
     return await _apiManager.getData(
-      EndPoints.studentCourses,
-      headers: {"Authorization": "Bearer $token"},
+      EndPoints.studentCourses, headers: {"Authorization": "Bearer $token"},
     );
   }
-
   @override
   Future<Response> getAllInstructorCourses() async {
     return await _apiManager.getData(
@@ -39,7 +34,6 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       headers: {"Authorization": "Bearer $token"},
     );
   }
-
   @override
   Future<Response> getStudentCourseDetails(int id) async {
     return await _apiManager.getData(
@@ -48,12 +42,10 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       headers: {"Authorization": "Bearer $token"},
     );
   }
-
   @override
   Future<Response> getUserInfo() async {
     return await _apiManager.getData(
-      EndPoints.userInfo,
-      headers: {"Authorization": "Bearer $token"},
+      EndPoints.userInfo, headers: {"Authorization": "Bearer $token"},
     );
   }
 }

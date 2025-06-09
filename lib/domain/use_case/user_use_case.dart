@@ -13,7 +13,7 @@ class UserUseCase {
 
   UserUseCase(this._repository);
 
-  Future<Either<DioFailure, GetAllStudentCoursesResponseEntity>>
+  Future<Either<DioFailure, GetAllCoursesStudentResponseEntity>>
   executeStudent() {
     return _repository.getAllStudentCourses();
   }

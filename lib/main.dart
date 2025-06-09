@@ -25,7 +25,7 @@ class AttendanceApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: RoutesGenerate.onGenerateRoute,
-      initialRoute: PagesRoutes.login,
+      initialRoute: PagesRoutes.splashScreen,
       builder: EasyLoading.init(),
     );
   }

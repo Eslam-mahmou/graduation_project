@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/Feature/subject_Screen/presentation/manager/user_state.dart';
 import 'package:graduation_project/core/Utils/constant_manager.dart';
@@ -11,20 +13,26 @@ import 'package:injectable/injectable.dart';
 @injectable
 class UserViewModel extends Cubit<UserState> {
   UserViewModel(this._userUseCase) : super(StudentLoadingState());
-  List<StudentCoursesEntity> studentCourses = [];
-  List<InstructorCoursesEntity> instructorCourses = [];
+  List<CoursesStudentListEntity> studentCourses =[];
+  List<InstructorCoursesListEntity> instructorCourses = [];
   final UserUseCase _userUseCase;
   StudentCourseDetailsEntity? courseDetails;
   int expandedIndex = 0;
+  bool isUserInfoFetched=false;
 
   Future<void> fetchUser() async {
     JwtHelper.extractRole() == AppConstants.student
-        ? fetchStudentCourses().then((value) async {
-          return fetchCourseDetails(studentCourses[0].id!.toInt());
+        ? fetchStudentCourses()
+        .then((value) async {
+          return fetchCourseDetails(studentCourses[0].courseId!.toInt());
         })
         : JwtHelper.extractRole() == AppConstants.instructor
         ? fetchInstructorCourses()
         : null;
+  }
+  void setExpandedIndex(int index) {
+    expandedIndex = (expandedIndex == index) ? -1 : index;
+    emit(UpdateUIState());
   }
 
   Future<void> fetchCourseDetails(int id) async {
@@ -49,8 +57,8 @@ class UserViewModel extends Cubit<UserState> {
         emit(StudentErrorState(error.errorMessage));
       },
       (response) {
-        studentCourses = response.data!.allStudentCourses ?? [];
-
+        studentCourses = response.data?.allCourse?.values ??[];
+         log(studentCourses.toString());
         emit(StudentSuccessState(response.data!));
       },
     );
@@ -64,7 +72,7 @@ class UserViewModel extends Cubit<UserState> {
         emit(InstructorErrorState(error.errorMessage));
       },
       (response) {
-        instructorCourses = response.data!.allInstructorCourses ?? [];
+        instructorCourses = response.data?.allInstructorCourses?.values??[];
         emit(InstructorSuccessState(response.data!));
       },
     );

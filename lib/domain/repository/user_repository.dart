@@ -7,7 +7,7 @@ import 'package:graduation_project/domain/entity/get_user_info_response_entity.d
 import '../entity/get_all_student_courses_response_entity.dart';
 
 abstract class UserRepository {
-  Future<Either<DioFailure,GetAllStudentCoursesResponseEntity>> getAllStudentCourses();
+  Future<Either<DioFailure,GetAllCoursesStudentResponseEntity>> getAllStudentCourses();
   Future<Either<DioFailure,GetAllInstructorCoursesResponseEntity>> getAllInstructorCourses();
   Future<Either<DioFailure,GetStudentCourseDetailsResponseEntity>> getStudentCourseDetails(int id);
   Future<Either<DioFailure ,GetUserInfoResponseEntity>> getUserInfo();

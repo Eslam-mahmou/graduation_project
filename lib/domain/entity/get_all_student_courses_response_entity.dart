@@ -1,8 +1,8 @@
-class GetAllStudentCoursesResponseEntity {
-  GetAllStudentCoursesResponseEntity({
-      this.statusCode,
-      this.message, 
-      this.data,});
+class GetAllCoursesStudentResponseEntity {
+  GetAllCoursesStudentResponseEntity({
+    this.statusCode,
+    this.message,
+    this.data,});
 
   num? statusCode;
   String? message;
@@ -13,20 +13,29 @@ class GetAllStudentCoursesResponseEntity {
 
 class GetStudentDataEntity {
   GetStudentDataEntity({
-      this.count, 
-      this.allStudentCourses,});
-
-
+    this.count,
+    this.allCourse,});
   num? count;
-  List<StudentCoursesEntity>? allStudentCourses;
+  StudentCoursesEntity? allCourse;
 
 
 }
 
 class StudentCoursesEntity {
   StudentCoursesEntity({
-      this.id, 
-      this.name,});
-  num? id;
+    this.values,});
+
+  List<CoursesStudentListEntity>? values;
+
+
+}
+
+class CoursesStudentListEntity {
+  CoursesStudentListEntity({
+    this.courseId,
+    this.name,});
+
+  num? courseId;
   String? name;
+
 }

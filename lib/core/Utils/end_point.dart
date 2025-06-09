@@ -5,4 +5,5 @@ abstract class EndPoints{
   static const String studentCourseDetails="/api/Student/GetSubjectDetails";
   static const String instructorCourseDetails="/api/Instructor/GetSubjectDetails";
   static const String userInfo="/api/User/GetUserInfo";
+  static const String startSession=" /api/SessionMaster/AddSession";
 }

@@ -1,32 +1,31 @@
 class GetAllInstructorCoursesResponseEntity {
   GetAllInstructorCoursesResponseEntity({
-      this.statusCode, 
-      this.message, 
-      this.data,});
+    this.statusCode,
+    this.message,
+    this.data,
+  });
 
   num? statusCode;
   String? message;
   GetInstructorDataEntity? data;
-
 }
 
 class GetInstructorDataEntity {
-  GetInstructorDataEntity({
-      this.count, 
-      this.allInstructorCourses,});
+  GetInstructorDataEntity({this.count, this.allInstructorCourses});
 
   num? count;
-  List<InstructorCoursesEntity>? allInstructorCourses;
-
-
+  InstructorCoursesEntity? allInstructorCourses;
 }
 
 class InstructorCoursesEntity {
-  InstructorCoursesEntity({
-      this.id, 
-      this.name,});
+  InstructorCoursesEntity({this.values});
+
+  List<InstructorCoursesListEntity>? values;
+}
+
+class InstructorCoursesListEntity {
+  InstructorCoursesListEntity({this.id, this.name});
+
   num? id;
   String? name;
-
-
 }

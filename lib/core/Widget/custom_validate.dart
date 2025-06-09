@@ -16,9 +16,9 @@ class AppValidate {
     if (value == null || value.isEmpty) {
       return 'Please enter a password ';
     }
-    if (value.length < 8) {
-      return 'Password should be at least 8 characters long ';
-    }
+    // if (value.length < 8) {
+    //   return 'Password should be at least 8 characters long ';
+    // }
     final regex = RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])');
     if (!regex.hasMatch(value)) {
       return 'Password should contain at least one uppercase letter, one lowercase letter, one number, and one special character ';

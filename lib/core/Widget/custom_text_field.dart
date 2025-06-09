@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graduation_project/core/Utils/colors_manager.dart';
 import 'package:graduation_project/core/Utils/font_manager.dart';
-@immutable
+
 class CustomTextField extends StatelessWidget {
-  CustomTextField({
+  CustomTextField({super.key,
     this.controller,
     this.validator,
     this.keyboardType,
