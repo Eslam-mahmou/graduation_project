@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:graduation_project/Feature/attendance/view/attendance_screen.dart';
 import 'package:graduation_project/Feature/session_screen/view/session_screen.dart';
 import 'package:graduation_project/Feature/splash_screen/splash_screen.dart';
-import 'package:graduation_project/Feature/subject_Screen/presentation/manager/user_cubit.dart';
 import 'package:graduation_project/core/routes_manager/page_routes.dart';
 import 'package:graduation_project/di/di.dart';
 
 import '../../Feature/attendance/manager/attendance_view_model.dart';
 import '../../Feature/login/presentation/login_screen.dart';
+import '../../Feature/session_screen/manager/session_view_model.dart';
 import '../../Feature/subject_Screen/presentation/view/subject_screen.dart';
 
 class RoutesGenerate {
@@ -26,22 +26,23 @@ class RoutesGenerate {
         );
       case PagesRoutes.subjectScreen:
         return MaterialPageRoute(
-          builder:
-              (context) => BlocProvider(
-                create: (context) => getIt.get<UserViewModel>(),
-                child: SubjectScreen(),
-              ),
+          builder: (context) => const SubjectScreen(),
           settings: settings,
         );
       case PagesRoutes.sessionScreen:
         return MaterialPageRoute(
-          builder: (context) => SessionScreen(),
+          builder: (context) =>
+              BlocProvider(
+                create: (context) => getIt.get<SessionViewModel>(),
+                child: SessionScreen(),
+              ),
           settings: settings,
         );
       case PagesRoutes.attendanceScreen:
         return MaterialPageRoute(
           builder:
-              (context) => BlocProvider(
+              (context) =>
+              BlocProvider(
                 create: (context) => getIt.get<AttendanceViewModel>(),
                 child: AttendanceScreen(),
               ),

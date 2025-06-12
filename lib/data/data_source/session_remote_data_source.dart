@@ -23,15 +23,15 @@ class SessionRemoteDataSourceImpl implements SessionRemoteDataSource {
     final oneHourLater = now.add(Duration(hours: 1));
 
     final String date = DateFormat('yyyy-MM-dd').format(now);
-    final String startTime = DateFormat('hh:mm a').format(now); // 12-hour format
+    final String startTime = DateFormat('hh:mm a').format(now);
     final String endTime = DateFormat('hh:mm a').format(oneHourLater);
     return _apiManager.postData("${EndPoints.startSession}/$courseId",
         headers: {"Authorization": "Bearer $token"},
         body: {
-          "date": date,
-          "startTime": startTime,
-          "endTime": endTime,
-          "academicYearId": 1
+          "date": "2025-06-12",
+          "startTime": "04:15",
+          "endTime": "04:35",
+          "academicYearId": 2
         }
     );
   }

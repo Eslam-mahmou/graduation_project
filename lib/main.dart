@@ -8,12 +8,12 @@ import 'core/Services/bloc_observer.dart';
 import 'core/Services/easyLoading.dart';
 import 'di/di.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SharedPreferenceServices.init();
   ConfigLoading().showLoading();
   configureDependencies();
   Bloc.observer = MyBlocObserver();
- await SharedPreferenceServices.init();
   runApp(const AttendanceApp());
 }
 

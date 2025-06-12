@@ -5,11 +5,12 @@ import 'package:dio/dio.dart';
 
 import 'package:graduation_project/core/Errors/dio_error.dart';
 import 'package:graduation_project/domain/entity/start_session_response_entity.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../domain/repository/session_repository.dart';
 import '../data_source/session_remote_data_source.dart';
 import '../model/start_session_response_model.dart';
-
+@Injectable(as: SessionRepository)
 class SessionRepositoryImpl implements SessionRepository {
   final SessionRemoteDataSource _dataSource;
 

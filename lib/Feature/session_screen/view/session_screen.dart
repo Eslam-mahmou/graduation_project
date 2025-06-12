@@ -1,7 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:graduation_project/Feature/session_screen/manager/session_state.dart';
+import 'package:graduation_project/Feature/session_screen/manager/session_view_model.dart';
 
 import '../../../core/Utils/colors_manager.dart';
 import '../../../core/Utils/font_manager.dart';
+import '../../../core/Widget/custom_diaolg.dart';
 import '../../../domain/entity/get_all_instructor_courses_response_entity.dart';
 
 class SessionScreen extends StatelessWidget {
@@ -9,82 +16,55 @@ class SessionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var viewModel = BlocProvider.of<SessionViewModel>(context);
     var arg =
         ModalRoute.of(context)!.settings.arguments
             as InstructorCoursesListEntity;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
 
-        title: Text(
-          arg.name.toString(),
-          style: TextStyle(
-            color: ColorsManager.blackColor,
-            fontSize: FontSize.s20,
-            fontWeight: FontWeightManager.bold,
-          ),
-        ),
-       actions: [
-         Text("")
-       ],
-      ),
-      body: Column(
-
-        children: [
-          SizedBox(
-            height: height *.08,
-          ),
-          Container(
-            margin:EdgeInsets.symmetric(horizontal: 16,vertical: 8),
-            width: double.infinity,
-            height: height *.07,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.circular(16),
+          title: Text(
+            arg.name.toString(),
+            style: TextStyle(
+              color: ColorsManager.blackColor,
+              fontSize: FontSize.s20,
+              fontWeight: FontWeightManager.bold,
             ),
-            child: Text("Start Session",
-              style: TextStyle(
-                color: ColorsManager.blackColor,
-                fontSize: FontSize.s20,
-                fontWeight: FontWeightManager.bold,
-              ),
-          )),
-          Container(
-              margin:EdgeInsets.symmetric(horizontal: 16,vertical: 8),
-              width: double.infinity,
-              height: height *.07,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Text("Start Session",
-                style: TextStyle(
-                  color: ColorsManager.blackColor,
-                  fontSize: FontSize.s20,
-                  fontWeight: FontWeightManager.bold,
-                ),
-              )),
-          Container(
-              margin:EdgeInsets.symmetric(horizontal: 16,vertical: 8),
-              width: double.infinity,
-              height: height *.07,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Text("Start Session",
-                style: TextStyle(
-                  color: ColorsManager.blackColor,
-                  fontSize: FontSize.s20,
-                  fontWeight: FontWeightManager.bold,
-                ),
-              ))
-        ],
-      ),
-    );
+          ),
+
+        ),
+        body: BlocConsumer<SessionViewModel, SessionState>(
+          bloc: viewModel..startSession(arg.id?.toInt().toString()??"105"),
+    listener: (context, state) {
+      if (state is StartSessionLoadingState) {
+        EasyLoading.show();
+      }
+      if (state is StartSessionErrorState) {
+        EasyLoading.dismiss();
+        log(state.errorMessage);
+        DialogUtils.showMessage(
+          context: context,
+          message: state.errorMessage,
+          title: "Error",
+          postActionName: "OK",
+        );
+      }
+      if (state is StartSessionSuccessState) {
+        EasyLoading.dismiss();
+        EasyLoading.showSuccess(
+          "Create Session Successfully",
+          duration: Duration(milliseconds: 800),
+        );
+      }
+    },
+    builder: (context, state) {
+      return Column(
+         children: [],
+        );
+    },
+    ),
+      );
   }
 }

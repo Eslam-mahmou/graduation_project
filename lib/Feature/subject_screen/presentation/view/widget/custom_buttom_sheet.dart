@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:graduation_project/Feature/subject_screen/presentation/view/widget/custom_session_period.dart';
 import 'package:graduation_project/core/routes_manager/page_routes.dart';
 import 'package:graduation_project/domain/entity/get_all_instructor_courses_response_entity.dart';
 
@@ -13,67 +14,99 @@ class CustomBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * .18,
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(
-                context,
-                PagesRoutes.sessionScreen,
-                arguments: courseEntity,
-              );
-            },
-            child: Container(
-              height: MediaQuery.of(context).size.height * .06,
-              width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Text(
-                "Start Session",
-                style: TextStyle(
-                  color: ColorsManager.blackColor,
-                  fontSize: FontSize.s16,
-                  fontWeight: FontWeightManager.semiBold,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height * .18,
+
+        child: Column(
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        backgroundColor: ColorsManager.whiteColor,
+                        title: Column(
+                          children: [
+                            CustomSessionPeriod(
+                              text: "First Period",
+                              courseEntity: courseEntity,
+                            ),
+                            CustomSessionPeriod(
+                              text: "Second Period",
+                              courseEntity: courseEntity,
+                            ),
+                            CustomSessionPeriod(
+                              text: "Third Period",
+                              courseEntity: courseEntity,
+                            ),
+                            CustomSessionPeriod(
+                              text: "Fourth Period",
+                              courseEntity: courseEntity,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Container(
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * .06,
+                  width: double.infinity,
+                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text(
+                    "Start Session",
+                    style: TextStyle(
+                      color: ColorsManager.blackColor,
+                      fontSize: FontSize.s16,
+                      fontWeight: FontWeightManager.semiBold,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(
-                context,
-                PagesRoutes.attendanceScreen,
-                arguments: courseEntity,
-              );
-            },
-            child: Container(
-              height: MediaQuery.of(context).size.height * .06,
-              width: double.infinity,
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Text(
-                "Subject Details",
-                style: TextStyle(
-                  color: ColorsManager.blackColor,
-                  fontSize: FontSize.s16,
-                  fontWeight: FontWeightManager.semiBold,
+              InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.pushNamed(
+                    context,
+                    PagesRoutes.attendanceScreen,
+                    arguments: courseEntity,
+                  );
+                },
+                child: Container(
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * .06,
+                  width: double.infinity,
+                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text(
+                    "Subject Details",
+                    style: TextStyle(
+                      color: ColorsManager.blackColor,
+                      fontSize: FontSize.s16,
+                      fontWeight: FontWeightManager.semiBold,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ],
-      ),
-    );
+            ]));
   }
+
 }
