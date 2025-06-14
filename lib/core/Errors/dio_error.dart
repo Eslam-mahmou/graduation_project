@@ -1,6 +1,4 @@
-
 import 'package:dio/dio.dart';
-
 
 abstract class DioFailure {
   final String errorMessage;
@@ -14,21 +12,31 @@ class ServerFailure extends DioFailure {
   factory ServerFailure.fromDioError(DioException dioError) {
     switch (dioError.type) {
       case DioExceptionType.connectionTimeout:
-        return ServerFailure('connection timeout with apiServer');
+        return ServerFailure(
+          'انتهت مهلة الاتصال بالسيرفر، يرجى المحاولة مرة أخرى',
+        );
       case DioExceptionType.sendTimeout:
-        return ServerFailure('send timeout with apiServer');
+        return ServerFailure(
+          'انتهت مهلة إرسال البيانات، يرجى المحاولة مرة أخرى',
+        );
       case DioExceptionType.receiveTimeout:
-        return ServerFailure('receive timeout with apiServer');
+        return ServerFailure(
+          'انتهت مهلة استلام البيانات، يرجى المحاولة مرة أخرى',
+        );
       case DioExceptionType.badCertificate:
       case DioExceptionType.badResponse:
         return ServerFailure.badFromResponse(
-            dioError.response!.statusCode!, dioError.response!.data);
+          dioError.response!.statusCode!,
+          dioError.response!.data,
+        );
       case DioExceptionType.cancel:
-        return ServerFailure('Requst to ApiServer was canceld');
+        return ServerFailure('تم إلغاء الطلب');
       case DioExceptionType.connectionError:
-        return ServerFailure('no internet connection ,please try again');
+        return ServerFailure(
+          'لا يوجد اتصال بالإنترنت، يرجى التحقق من اتصالك والمحاولة مرة أخرى',
+        );
       case DioExceptionType.unknown:
-        return ServerFailure('Unexpected error ,please try later!');
+        return ServerFailure('حدث خطأ غير متوقع، يرجى المحاولة مرة أخرى');
       default:
         return ServerFailure('Opps there was an error ,please try again');
     }
@@ -36,15 +44,13 @@ class ServerFailure extends DioFailure {
 
   factory ServerFailure.badFromResponse(int statusCode, dynamic response) {
     if ((statusCode == 400 || statusCode == 401 || statusCode == 403)) {
-      return ServerFailure(response['message']);
-    }else if (statusCode ==409){
+      return ServerFailure(response);
+    } else if (statusCode == 409) {
       return ServerFailure("Account Already Exists");
-    }
-    else if (statusCode == 404) {
+    } else if (statusCode == 404) {
       return ServerFailure('Your request not found please try again later!');
     } else if (statusCode == 500) {
       return ServerFailure('Internal server error, please try again later!');
-
     }
     // else if (statusCode ==409){
     //   return ServerFailure("Account Already Exists");

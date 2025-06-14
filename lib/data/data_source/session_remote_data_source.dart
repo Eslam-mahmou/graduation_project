@@ -20,17 +20,18 @@ class SessionRemoteDataSourceImpl implements SessionRemoteDataSource {
   @override
   Future<Response> startSession(String courseId) {
     final now = DateTime.now();
-    final oneHourLater = now.add(Duration(hours: 1));
+    final oneHourLater = now.add(Duration(minutes: 4));
 
     final String date = DateFormat('yyyy-MM-dd').format(now);
-    final String startTime = DateFormat('hh:mm a').format(now);
-    final String endTime = DateFormat('hh:mm a').format(oneHourLater);
+    final String startTime = DateFormat('HH:mm').format(now);
+    final String endTime = DateFormat('HH:mm').format(oneHourLater);
+
     return _apiManager.postData("${EndPoints.startSession}/$courseId",
         headers: {"Authorization": "Bearer $token"},
         body: {
-          "date": "2025-06-12",
-          "startTime": "04:15",
-          "endTime": "04:35",
+          "date": date,
+          "startTime": startTime,
+          "endTime": endTime,
           "academicYearId": 2
         }
     );

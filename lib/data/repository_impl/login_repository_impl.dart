@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:graduation_project/core/Errors/dio_error.dart';
 import 'package:graduation_project/core/Services/shared_preference_services.dart';
 import 'package:graduation_project/core/Utils/constant_manager.dart';
+import 'package:graduation_project/core/Utils/end_point.dart';
 import 'package:graduation_project/data/data_source/login_remote_data_source.dart';
 import 'package:graduation_project/domain/entity/login_response_entity.dart';
 import 'package:injectable/injectable.dart';
@@ -21,7 +22,8 @@ class LoginRepositoryImpl implements LoginRepository {
   ) async {
     final response = await _loginRemoteDataSource.login(email, password);
     try {
-      log("response ${response.data}");
+      log("response ${response.statusCode}");
+      log(AppConstants.baseUrl+EndPoints.login);
       if (response.statusCode== 200) {
         var data = LoginResponseModel.fromJson(response.data);
        await SharedPreferenceServices.saveToken(

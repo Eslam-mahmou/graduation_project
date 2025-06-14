@@ -49,6 +49,10 @@ class SessionScreen extends StatelessWidget {
           message: state.errorMessage,
           title: "Error",
           postActionName: "OK",
+          postAction: () {
+            Navigator.pop(context);
+            Navigator.pop(context);
+            },
         );
       }
       if (state is StartSessionSuccessState) {
@@ -57,6 +61,7 @@ class SessionScreen extends StatelessWidget {
           "Create Session Successfully",
           duration: Duration(milliseconds: 800),
         );
+
       }
     },
     builder: (context, state) {

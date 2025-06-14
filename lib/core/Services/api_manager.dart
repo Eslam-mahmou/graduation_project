@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
 import '../Utils/constant_manager.dart';
+
 @singleton
 class ApiManager {
   static ApiManager? _this;
 
-  ApiManager._();
+  ApiManager._() {
+    dio.options.connectTimeout = const Duration(seconds: 30);
+    dio.options.receiveTimeout = const Duration(seconds: 30);
+    dio.options.sendTimeout = const Duration(seconds: 30);
+    dio.options.baseUrl = AppConstants.baseUrl;
+    initializeInterceptors();
+  }
 
   factory ApiManager() {
     _this ??= ApiManager._();
@@ -16,42 +23,52 @@ class ApiManager {
 
   Dio dio = Dio();
 
-  Future<Response> getData(String endPoint,
-      {Map<String, dynamic>? queryParameters,
-      Map<String, dynamic>? headers}) async {
-    return await dio.get(AppConstants.baseUrl + endPoint,
-        queryParameters: queryParameters,
-        options: Options(validateStatus: (status) => true, headers: headers));
+  Future<Response> getData(
+    String endPoint, {
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
+  }) async {
+    return await dio.get(
+      AppConstants.baseUrl + endPoint,
+      queryParameters: queryParameters,
+      options: Options(validateStatus: (status) => true, headers: headers),
+    );
   }
 
-  Future<Response> postData(String endPoint,
-      {Map<String, dynamic>? body, Map<String, dynamic>? headers}) async {
-    return await dio.post(AppConstants.baseUrl + endPoint,
-        data: body,
-        options: Options(
-          headers: headers,
-          validateStatus: (status) => true,
-        ));
+  Future<Response> postData(
+    String endPoint, {
+    Map<String, dynamic>? body,
+    Map<String, dynamic>? headers,
+  }) async {
+    return await dio.post(
+      AppConstants.baseUrl + endPoint,
+      data: body,
+      options: Options(headers: headers, validateStatus: (status) => true),
+    );
   }
 
-  Future<Response> deleteData(String endPoint,
-      {Map<String, dynamic>? body, Map<String, dynamic>? headers}) async {
-    return await dio.delete(AppConstants.baseUrl + endPoint,
-        data: body,
-        options: Options(
-          headers: headers,
-          validateStatus: (status) => true,
-        ));
+  Future<Response> deleteData(
+    String endPoint, {
+    Map<String, dynamic>? body,
+    Map<String, dynamic>? headers,
+  }) async {
+    return await dio.delete(
+      AppConstants.baseUrl + endPoint,
+      data: body,
+      options: Options(headers: headers, validateStatus: (status) => true),
+    );
   }
 
-  Future<Response> putData(String endPoint, Map<String, dynamic> body,
-      Map<String, dynamic>? headers) async {
-    return await dio.put(AppConstants.baseUrl + endPoint,
-        data: body,
-        options: Options(
-          headers: headers,
-          validateStatus: (status) => true,
-        ));
+  Future<Response> putData(
+    String endPoint,
+    Map<String, dynamic> body,
+    Map<String, dynamic>? headers,
+  ) async {
+    return await dio.put(
+      AppConstants.baseUrl + endPoint,
+      data: body,
+      options: Options(headers: headers, validateStatus: (status) => true),
+    );
   }
 
   initializeInterceptors() {
@@ -68,9 +85,10 @@ class ApiManager {
         onResponse: (response, handler) {
           debugPrint("status code: ${response.statusCode}");
           debugPrint("data: ${response.data}");
+          return handler.next(response);
         },
         onError: (DioException e, handler) {
-          debugPrint(" message: ${e.message}");
+          debugPrint("message: ${e.message}");
           debugPrint("status code: ${e.response?.statusCode}");
           debugPrint("error type: ${e.type}");
           debugPrint("data: ${e.response?.data}");
